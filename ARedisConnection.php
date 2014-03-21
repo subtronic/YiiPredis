@@ -44,28 +44,27 @@ class ARedisConnection extends CApplicationComponent {
 
 	/**
 	 * Sets the redis client to use with this connection
-	 * @param Redis $client the redis client instance
+	 * @param \Predis\Client $client the redis client instance
 	 */
-	public function setClient(Redis $client)
+	public function setClient($client)
 	{
 		$this->_client = $client;
 	}
 
 	/**
 	 * Gets the redis client
-	 * @return Redis the redis client
+	 * @return \Predis\Client the redis client
 	 */
 	public function getClient()
 	{
 		if ($this->_client === null) {
-			$this->_client = new Redis;
-			$this->_client->connect($this->hostname, $this->port);
-			if (isset($this->password)) {
-				if ($this->_client->auth($this->password) === false) {
-					throw new CException('Redis authentication failed!');
-				}
-			}
-            $this->_client->setOption(Redis::OPT_PREFIX, $this->prefix);
+			$this->_client = new \Predis\Client([
+			    'scheme' => 'tcp',
+			    'host'   => $this->hostname,
+			    'port'   => $this->port,
+			], [
+				'prefix' => $this->prefix,
+			]);
             $this->_client->select($this->database);
 		}
 		return $this->_client;
