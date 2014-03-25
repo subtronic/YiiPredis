@@ -77,7 +77,7 @@ abstract class ARedisIterableEntity extends ARedisEntity implements IteratorAggr
 	public function clear() {
 		$this->_data = null;
 		$this->_count = null;
-		$this->getConnection()->getClient()->delete($this->name);
+		$this->getConnection()->getClient()->del($this->name);
 		return $this;
 	}
 

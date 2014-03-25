@@ -106,7 +106,7 @@ class ARedisCache extends CCache {
 	 * @return boolean if no error happens during deletion
 	 */
 	protected function deleteValue($key) {
-		return $this->getConnection()->getClient()->delete($key);
+		return $this->getConnection()->getClient()->del($key);
 	}
 
 	/**
