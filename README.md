@@ -1,11 +1,11 @@
-<h1>YiiRedis</h1>
+<h1>YiiPredis</h1>
+
+YiiPredis is a fork of https://github.com/phpnode/YiiRedis Yii extension which uses https://github.com/nrk/predis instead of https://github.com/owlient/phpredis. You must install Predis before start using this extension.
 
 Provides object oriented access to Redis in a familiar Yii Style.
 When you add or remove items from redis entities (lists, sets, sorted sets, hashes), changes
 are pushed to the server immediately, this is useful when your application needs to make information
 available across multiple requests.
-
-This package relies on the https://github.com/nicolasff/phpredis PHP extension, please make sure this is installed before continuing.
 
 <h2>Usage</h2>
 

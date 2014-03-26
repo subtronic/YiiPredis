@@ -6,6 +6,13 @@
         {
             "name": "Charles Pick",
             "email": "charles.pick@gmail.com"
+        },
+        {
+            "name": "Subtronic"
+        },
+        {
+            "name": "Martin Stolz",
+            "email": "herr.offizier@gmail.com"
         }
     ],
     "autoload": {
@@ -28,6 +35,5 @@
         ]
     },
     "require": {
-
     }
 }

@@ -25,6 +25,8 @@ class ARedisChannel extends ARedisIterableEntity {
 	 * @var array
 	 */
 	protected $_data = array();
+
+	protected $pubsub = null;
 	/**
 	 * Subscribes to the channel
 	 * @return ARedisIterableChannel $this subscribed to the channel
@@ -33,7 +35,18 @@ class ARedisChannel extends ARedisIterableEntity {
 		if ($this->name === null) {
 			throw new CException(get_class($this)." requires a name!");
 		}
-		$this->getConnection()->getClient()->subscribe(array($this->name),array($this,"receiveMessage"));
+		$this->pubsub = $this->getConnection()->pubSubLoop();
+		$this->pubsub->subscribe($this->name);
+
+		foreach ($this->pubsub as $message) {
+			switch ($message->kind) {
+				case 'message':
+					$this->receiveMessage($message->payload);
+					break;
+			}
+
+			if (!$this->pubsub->valid()) break;
+		}
 		return $this;
 	}
 	/**
@@ -44,7 +57,7 @@ class ARedisChannel extends ARedisIterableEntity {
 		if ($this->name === null) {
 			throw new CException(get_class($this)." requires a name!");
 		}
-		$this->getConnection()->getClient()->unsubscribe(array($this->name));
+		$this->pubsub->unsubscribe($this->name);
 		return $this;
 	}
 
@@ -62,11 +75,9 @@ class ARedisChannel extends ARedisIterableEntity {
 	}
 	/**
 	 * Receives a message from a subscribed channel
-	 * @param Redis $redis the redis client instance
-	 * @param string $channel the name of the channel
 	 * @param string $message the message content
 	 */
-	public function receiveMessage($redis, $channel, $message) {
+	public function receiveMessage($message) {
 		$this->_data[] = $message;
 		$event=new CEvent($this);
 		$this->onReceiveMessage($event);
