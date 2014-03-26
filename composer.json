@@ -1,6 +1,6 @@
 {
-    "name": "codemix/yiiredis",
-    "description": "Familiar Yii style access to redis",
+    "name": "subtronic/yiipredis",
+    "description": "Familiar Yii style access to redis via Predis",
     "license": "MIT",
     "authors": [
         {
