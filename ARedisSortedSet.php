@@ -166,7 +166,11 @@ class ARedisSortedSet extends ARedisIterableEntity {
 	 */
 	public function getData($forceRefresh = false) {
 		if ($forceRefresh || $this->_data === null) {
-			$this->_data = $this->getConnection()->getClient()->zrange($this->name,0, -1, 'WITHSCORES');
+			$this->_data = array();
+			$data = $this->getConnection()->getClient()->zrange($this->name, 0, -1, 'WITHSCORES') ?: array();
+			foreach ($data as $item) {
+				$this->_data[$item[0]] = $item[1];
+			}
 		}
 		return $this->_data;
 	}
