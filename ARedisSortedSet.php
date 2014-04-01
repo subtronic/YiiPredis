@@ -176,6 +176,16 @@ class ARedisSortedSet extends ARedisIterableEntity {
 	}
 
 	/**
+	 * Determines whether the item is contained in the entity
+	 * @param mixed $item the item to check for
+	 * @return boolean true if the item exists in the entity, otherwise false
+	 */
+	public function contains($item) {
+		$data = $this->getData();
+		return isset($data[$item]);
+	}
+
+	/**
 	 * Returns whether there is an item at the specified offset.
 	 * This method is required by the interface ArrayAccess.
 	 * @param integer $offset the offset to check on
